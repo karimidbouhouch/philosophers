@@ -6,11 +6,52 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:07:01 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/01 22:38:55 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/03 00:27:21 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+// int make_threads(t_data *data)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < data->nb_of_philo)
+// 	{
+// 		if()
+// 	}
+	
+// 	return (0);
+// }
+
+int init_philo(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	
+}
+
+int init_mutex(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->mutex = malloc(sizeof(t_mutex));
+	if(!data->mutex)
+		return (0);
+	data->mutex->forks = malloc(sizeof(pthread_mutex_t) * data->nb_of_philo);
+	if(!data->mutex->forks)
+		return (0);
+	while (i < data->nb_of_philo)
+	{
+		if (pthread_mutex_init(&data->mutex->forks[i], NULL) != 0)
+			return (0);
+		i++;
+	}
+	return (0);
+}
 
 int main(int ac, char **av)
 {
