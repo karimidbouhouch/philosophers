@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:08:33 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/05 01:47:42 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/06 01:22:27 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef struct mutex
 
 typedef struct data
 {
-	long	time;
-	int		flag;
+	long	start_time;
+	int		dead;
 	int		nb_of_philo;
 	int		time_to_die;
 	int		time_to_eat;
@@ -40,14 +40,12 @@ typedef struct philo
 {
 	int				philo_id;
 	int				eat_count;
-	long			start_time;
 	long			last_meal;
 	t_data			*args;
 	t_mutex			*mutex;
 	pthread_t		thread;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
-	pthread_t		death;
 }					t_philo;
 
 typedef struct all
