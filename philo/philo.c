@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:07:01 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/06 01:24:23 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/06 21:58:33 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_and_destroy(t_all *all)
 	{
 		pthread_mutex_destroy(all->philo[i].left_fork);
 		pthread_mutex_destroy(all->philo[i].right_fork);
-		free(all->philo[i].mutex);
+		// free(all->philo[i].mutex);
 		i++;
 	}
 	pthread_mutex_destroy(&all->lock->output);
@@ -124,10 +124,10 @@ int	make_thread(t_all *info, int j, int i)
 
 int	if_dead(t_philo *philo)
 {
-	long	hunger_time;
+	long	time;
 
-	hunger_time = current_time() - philo->last_meal;
-	if (hunger_time > philo->args->time_to_die)
+	time = current_time() - philo->last_meal;
+	if (time > philo->args->time_to_die)
 	{
 		pthread_mutex_lock(&philo->mutex->output);
 		printf("%ld\tThe philo %d is dead\n", current_time() - philo->args->start_time, philo->philo_id);
@@ -231,35 +231,36 @@ int	main(int ac, char **av)
 		return (0);
 	if (init_philo(&info))
 		return (0);
-	i = 0;
+	i = -1;
 	info.data->start_time = current_time();
-	while (i < info.data->nb_of_philo)
-	{
+	while (++i < info.data->nb_of_philo)
 		make_thread(&info, 0, i);
-		i++;
-	}
-	i = 0;
-	while (i < info.data->nb_of_philo)
-	{
+	i = -1;
+	while (++i < info.data->nb_of_philo)
 		make_thread(&info, 1, i);
-		i++;
-	}
-	int meals_count;
+	
+	int count_meals;
 	while (1)
 	{
 		i = 0;
-		meals_count = 0;
+		count_meals = 0;
 		while (i < info.data->nb_of_philo)
 		{
 			if (!if_dead(&info.philo[i]))
 				return (1);
-			meals_count +=  info.philo[i].eat_count;
+			count_meals +=  info.philo[i].eat_count;
 			i++;
 		}
-		if (meals_count == 0)
+		if (count_meals == 0)
 		{
 			pthread_mutex_lock(&info.lock->output);
-			return (1);
+			// return (1);
+			while(1)
+				pause();
 		}
 	}
+	free_and_destroy(&info);
+	destroy_mutex(&info);
+	
+	return (0);
 }
