@@ -6,11 +6,35 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:11:04 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/01 22:13:28 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/07 02:19:48 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+long	current_time(void)
+{
+	struct timeval	time;
+	long			tmp;
+
+	gettimeofday(&time, NULL);
+	tmp = time.tv_sec * 1000 + time.tv_usec / 1000;
+	return (tmp);
+}
+
+void	ft_sleep(long time)
+{
+	long	start_time;
+	long	time_passed;
+
+	start_time = current_time();
+	time_passed = current_time() + time;
+	while (time_passed > start_time)
+	{
+		usleep(100);
+		start_time = current_time();
+	}
+}
 
 int	ft_atoi(const char *str)
 {

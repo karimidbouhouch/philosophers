@@ -6,18 +6,17 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:08:33 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/06 01:22:27 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/07 02:29:59 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
-#define PHILOSOPHERS_H
-
-#include <stdio.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <sys/time.h>
+# define PHILOSOPHERS_H
+# include <stdio.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <stdlib.h>
+# include <sys/time.h>
 
 typedef struct mutex
 {
@@ -55,5 +54,20 @@ typedef struct all
 	t_data		*data;
 }				t_all;
 
-int	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
+int		init_philo(t_all *info);
+int		init_mutex(t_all *info);
+void	destroy_mutex(t_all *all);
+void	free_and_destroy(t_all *all);
+int		init_mutex(t_all *info);
+int		init_philo(t_all *info);
+void	output(t_philo *philo, char *str);
+void	*routine(void *philo);
+int		make_thread(t_all *info, int j, int i);
+int		if_dead(t_philo *philo);
+int		ft_threads(t_all *info);
+int		check_death(t_all *info);
+long	current_time(void);
+void	ft_sleep(long time);
+
 #endif
