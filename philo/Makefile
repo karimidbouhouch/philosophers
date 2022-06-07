@@ -1,7 +1,7 @@
 NAME = philo
 INC = philosophers.h
 FLAGS = -Wall -Wextra -Werror
-SRC = philo.c philo_utils.c free_destroy.c init_mutex_philo.c
+SRC = philo.c philo_utils.c free_destroy.c routine.c init_mutex_philo.c
 
 OBJ = $(SRC:%.c=%.o)
 

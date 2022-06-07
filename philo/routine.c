@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 02:25:28 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/07 02:31:40 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/07 02:35:00 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ void	*routine(void *data)
 	while (1)
 	{
 		if (philo->eat_count != 0)
-		{
 			routine_2(philo);
-		}
 		else
 			break ;
 	}

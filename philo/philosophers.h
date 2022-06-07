@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:08:33 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/07 02:29:59 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/07 02:35:58 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		init_mutex(t_all *info);
 int		init_philo(t_all *info);
 void	output(t_philo *philo, char *str);
 void	*routine(void *philo);
+void	routine_2(t_philo *data);
 int		make_thread(t_all *info, int j, int i);
 int		if_dead(t_philo *philo);
 int		ft_threads(t_all *info);
