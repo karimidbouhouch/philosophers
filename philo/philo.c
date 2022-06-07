@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:07:01 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/07 02:29:07 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/07 20:34:29 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,34 @@ int	check_death(t_all *info)
 	return (0);
 }
 
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_parse(char **av)
+{
+	int i;
+	int	j;
+
+	i = 1;
+	while (av[i])
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (1);
+			j++;
+		}	
+		i++;
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_all	info;
@@ -92,6 +120,8 @@ int	main(int ac, char **av)
 	info.data = &data;
 	if (ac < 5 || ac > 6)
 		return (1);
+	if (ft_parse(av))
+		return (0);
 	info.data->nb_of_philo = ft_atoi(av[1]);
 	info.data->time_to_die = ft_atoi(av[2]);
 	info.data->time_to_eat = ft_atoi(av[3]);

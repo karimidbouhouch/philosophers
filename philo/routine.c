@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 02:25:28 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/07 02:35:00 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/07 20:35:54 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	routine_2(t_philo *data)
 	output(data, "has taken the left fork");
 	output(data, "is eating");
 	data->last_meal = current_time();
-	data->eat_count--;
 	ft_sleep(data->args->time_to_eat);
 	pthread_mutex_unlock(data->left_fork);
 	pthread_mutex_unlock(data->right_fork);
+	data->eat_count--;
 	output(data, "is sleeping");
 	ft_sleep(data->args->time_to_sleep);
 	output(data, "is thinking");
