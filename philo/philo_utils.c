@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:11:04 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/07 02:19:48 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:12:54 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,32 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (n * sign);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_parse(char **av)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (av[i])
+	{
+		j = 0;
+		while (av[i][j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (1);
+			j++;
+		}	
+		i++;
+	}
+	return (0);
 }

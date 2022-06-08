@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:07:01 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/07 20:34:29 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:11:36 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,6 @@ int	if_dead(t_philo *philo)
 	return (0);
 }
 
-int	ft_threads(t_all *info)
-{
-	int	i;
-
-	i = -1;
-	info->data->start_time = current_time();
-	while (++i < info->data->nb_of_philo)
-		make_thread(info, 0, i);
-	i = -1;
-	while (++i < info->data->nb_of_philo)
-		make_thread(info, 1, i);
-	return (0);
-}
-
 int	check_death(t_all *info)
 {
 	int	i;
@@ -84,31 +70,19 @@ int	check_death(t_all *info)
 	return (0);
 }
 
-int	ft_isdigit(int c)
+int	ft_threads(t_all *info)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
+	int	i;
+
+	i = -1;
+	info->data->start_time = current_time();
+	while (++i < info->data->nb_of_philo)
+		make_thread(info, 0, i);
+	i = -1;
+	while (++i < info->data->nb_of_philo)
+		make_thread(info, 1, i);
+	if (check_death(info))
 		return (0);
-}
-
-int	ft_parse(char **av)
-{
-	int i;
-	int	j;
-
-	i = 1;
-	while (av[i])
-	{
-		j = 0;
-		while (av[i][j])
-		{
-			if (!ft_isdigit(av[i][j]))
-				return (1);
-			j++;
-		}	
-		i++;
-	}
 	return (0);
 }
 
@@ -135,8 +109,6 @@ int	main(int ac, char **av)
 	if (init_philo(&info))
 		return (0);
 	if (ft_threads(&info))
-		return (0);
-	if (check_death(&info))
 		return (0);
 	free_and_destroy(&info);
 	return (0);

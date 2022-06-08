@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:08:33 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/07 02:35:58 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/08 15:04:29 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ int		ft_threads(t_all *info);
 int		check_death(t_all *info);
 long	current_time(void);
 void	ft_sleep(long time);
+int		ft_parse(char **av);
+int		ft_isdigit(int c);
 
 #endif
