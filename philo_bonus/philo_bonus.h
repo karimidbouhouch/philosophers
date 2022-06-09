@@ -16,13 +16,14 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <stdlib.h>
+# include <semaphore.h>
 # include <sys/time.h>
 
-typedef struct mutex
+typedef struct sema
 {
-	pthread_mutex_t	output;
-	pthread_mutex_t	*forks;
-}					t_mutex;
+	sem_t	*output;
+	sem_t	*forks;
+}					t_sema;
 
 typedef struct data
 {
@@ -41,15 +42,13 @@ typedef struct philo
 	int				eat_count;
 	long			last_meal;
 	t_data			*args;
-	t_mutex			*mutex;
-	pthread_t		thread;
-	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	*left_fork;
+	t_sema			*sems;
+	pid_t			*pid;
 }					t_philo;
 
 typedef struct all
 {
-	t_mutex		*lock;
+	t_sema		*lock;
 	t_philo		*philo;
 	t_data		*data;
 }				t_all;

@@ -12,26 +12,18 @@
 
 #include "philo_bonus.h"
 
-int	init_mutex(t_all *info)
+int	init_sems(t_all *info)
 {
-	int	j;
-
-	j = 0;
-	info->lock = malloc(sizeof(t_mutex));
+	info->lock = malloc(sizeof(t_sema));
 	if (!info->lock)
 		return (1);
-	info->lock->forks = malloc(sizeof(pthread_mutex_t)
-			* info->data->nb_of_philo);
-	if (!info->lock->forks)
+	sem_unlink("output");
+	info->lock->output = sem_open("output", O_CREAT, 0644, 1);
+	if (info->lock->output == SEM_FAILED)
 		return (1);
-	if (pthread_mutex_init(&info->lock->output, NULL) != 0)
+	info->lock->forks = sem_open("forks", O_CREAT, 0644, info->data->nb_of_philo);
+	if (info->lock->forks == SEM_FAILED)
 		return (1);
-	while (j < info->data->nb_of_philo)
-	{
-		if (pthread_mutex_init(&info->lock->forks[j], NULL) != 0)
-			return (1);
-		j++;
-	}
 	return (0);
 }
 
@@ -43,19 +35,12 @@ int	init_philo(t_all *info)
 	info->philo = malloc(sizeof(t_philo) * info->data->nb_of_philo);
 	if (!info->philo)
 		return (1);
-	while (i < info->data->nb_of_philo)
-	{
-		info->philo[i].philo_id = i + 1;
-		info->philo[i].last_meal = 0;
-		info->philo[i].eat_count = info->data->nb_of_meals;
-		info->philo[i].args = info->data;
-		info->philo[i].mutex = info->lock;
-		info->philo[i].right_fork = &info->lock->forks[i];
-		if ((i + 1) == info->data->nb_of_philo)
-			info->philo[i].left_fork = &info->lock->forks[0];
-		else
-			info->philo[i].left_fork = &info->lock->forks[i + 1];
-		i++;
-	}
+	info->philo->pid = malloc(sizeof(pid_t) * info->data->nb_of_philo);
+	if (!info->philo->pid)
+		return (1);
+	info->data->dead = 0;
+	info->philo->eat_count = info->data->nb_of_meals;
+	info->philo->args = info->data;
+	info->philo->sems = info->lock;
 	return (0);
 }

@@ -7,7 +7,7 @@ OBJ = $(SRC:%.c=%.o)
 
 all: $(NAME)
 $(NAME) : $(OBJ) $(INC)
-	gcc $(FLAGS) $(OBJ) -o $(NAME)
+	gcc -pthread $(FLAGS) $(OBJ) -o $(NAME)
 clean:
 	@rm -f $(OBJ)
 fclean: clean
