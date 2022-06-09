@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <sys/stat.h>
 
 typedef struct sema
 {
