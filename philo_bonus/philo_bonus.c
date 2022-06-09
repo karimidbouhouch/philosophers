@@ -6,12 +6,11 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:07:01 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/08 17:59:53 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:55:19 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
 
 void	wait_loop(t_all *all)
 {
@@ -46,12 +45,11 @@ void	*check_death(void *philos)
 	while (1)
 	{
 		meals_count = 0;
-		hunger_time = get_time() - phil->last_meal;
+		hunger_time = current_time() - phil->last_meal;
 		if (phil->args->time_to_die < hunger_time)
 		{
 			sem_wait(phil->sems->output);
-			printf("%ld\tThe philo %d is dead\n", get_time() - \
-			phil->start_time, phil->philo_id);
+			printf("%ld\tThe philo %d is dead\n", current_time() - phil->args->start_time, phil->philo_id);
 			exit (0);
 		}
 		meals_count += phil->eat_count;
@@ -63,56 +61,49 @@ void	*check_death(void *philos)
 	}
 }
 
-void	is_sleep(long wait_time)
+void	ft_sleep(long time)
 {
-	long	starting_time;
+	long	start_time;
 	long	time_passed;
 
-	starting_time = get_time();
-	time_passed = get_time() + wait_time;
-	while (time_passed > starting_time)
+	start_time = current_time();
+	time_passed = current_time() + time;
+	while (time_passed > start_time)
 	{
 		usleep(100);
-		starting_time = get_time();
+		start_time = current_time();
 	}
 }
 
 void	output(t_philo *philo, char *str)
 {
 	sem_wait(philo->sems->output);
-	if (philo->args->death_flag == 0)
-		printf("%ld\tThe philo %d %s\n", get_time() - philo->start_time, \
-		philo->philo_id, str);
+	if (philo->args->dead == 0)
+		printf("%ld\tThe philo %d %s\n", current_time() - philo->args->start_time, philo->philo_id, str);
 	sem_post(philo->sems->output);
-}
-
-int	eating(t_philo *philo)
-{
-	sem_wait(philo->sems->forks);
-	output(philo, "has taken the forks");
-	output(philo, "is eating");
-	philo->last_meal = get_time();
-	is_sleep(philo->args->time_to_eat);
-	sem_post(philo->sems->forks);
-	return (0);
 }
 
 void	start_act(t_philo *phil)
 {
 	pthread_t	dead_flag;
 
-	phil->start_time = get_time();
-	phil->last_meal = get_time();
+	phil->args->start_time = current_time();
+	phil->last_meal = current_time();
 	pthread_create(&dead_flag, NULL, check_death, (void *)phil);
 	pthread_detach(dead_flag);
 	while (1)
 	{
 		if (phil->eat_count != 0)
 		{
-			eating(phil);
+			sem_wait(phil->sems->forks);
+			output(phil, "has taken the forks");
+			output(phil, "is eating");
+			phil->last_meal = current_time();
+			ft_sleep(phil->args->time_to_eat);
+			sem_post(phil->sems->forks);
 			phil->eat_count--;
 			output(phil, "is sleeping");
-			is_sleep(phil->args->time_to_sleep);
+			ft_sleep(phil->args->time_to_sleep);
 			output(phil, "is thinking");
 		}
 		else
@@ -134,10 +125,10 @@ int	init_process(t_all *all)
 			start_act(all->philo);
 		}
 		else if (all->philo->pid[i] == -1)
-			return (put_err("Can't create a process\n", 0));
+			return (1);
 		i++;
 	}
-	wait_loop(all);
+	// wait_loop(all);
 	return (0);
 }
 
@@ -164,8 +155,7 @@ int	main(int ac, char **av)
 		return (0);
 	if (init_philo(&info))
 		return (0);
-	if (ft_threads(&info))
+	if (init_process(&info))
 		return (0);
-	free_and_destroy(&info);
 	return (0);
 }

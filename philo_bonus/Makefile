@@ -1,7 +1,7 @@
-NAME = philo
+NAME = philo_bonus
 INC = philo_bonus.h
 FLAGS = -Wall -Wextra -Werror
-SRC = philo_bonus.c philo_utils_bonus.c free_destroy_bonus.c routine_bonus.c init_mutex_philo_bonus.c
+SRC = philo_bonus.c philo_utils_bonus.c routine_bonus.c init_sems_philo_bonus.c
 
 OBJ = $(SRC:%.c=%.o)
 
