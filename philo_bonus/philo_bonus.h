@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 22:08:33 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/09 17:12:59 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/10 22:30:39 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <semaphore.h>
 # include <sys/time.h>
 # include <sys/stat.h>
-#include <signal.h>
+# include <signal.h>
 
 typedef struct sema
 {
@@ -43,9 +43,9 @@ typedef struct philo
 	int		philo_id;
 	int		eat_count;
 	long	last_meal;
+	pid_t	*pid;
 	t_data	*args;
 	t_sema	*sems;
-	pid_t	*pid;
 }			t_philo;
 
 typedef struct all
@@ -61,15 +61,14 @@ void	free_and_destroy(t_all *all);
 int		init_philo(t_all *info);
 void	output(t_philo *philo, char *str);
 void	start_act(t_philo *phil);
-void	*check_death(void *philos);
+void	*check_death(void *v);
 long	current_time(void);
 void	ft_sleep(long time);
 int		ft_parse(char **av);
 int		ft_isdigit(int c);
-void	wait_loop(t_all *all);
 int		init_process(t_all *all);
 int		init_sems(t_all *info);
-
-
+void	routine(t_philo *philo);
+void	free_all(t_all *all);
 
 #endif

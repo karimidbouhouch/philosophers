@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_mutex_philo_bonus.c                           :+:      :+:    :+:   */
+/*   init_sems_philo_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 02:01:50 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/06/08 17:59:55 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/06/10 22:51:50 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ int	init_sems(t_all *info)
 	if (!info->lock)
 		return (1);
 	sem_unlink("output");
-	info->lock->output = sem_open("output", O_CREAT, 0644, 1);
+	info->lock->output = sem_open("output", O_CREAT, 777, 1);
 	if (info->lock->output == SEM_FAILED)
 		return (1);
-	info->lock->forks = sem_open("forks", O_CREAT, 0644, info->data->nb_of_philo);
+	sem_unlink("forks");
+	info->lock->forks = sem_open("forks", O_CREAT,
+			777, info->data->nb_of_philo / 2);
 	if (info->lock->forks == SEM_FAILED)
 		return (1);
 	return (0);
@@ -43,4 +45,15 @@ int	init_philo(t_all *info)
 	info->philo->args = info->data;
 	info->philo->sems = info->lock;
 	return (0);
+}
+
+void	free_all(t_all *all)
+{
+	sem_unlink("output");
+	sem_unlink("forks");
+	sem_close(all->lock->output);
+	sem_close(all->lock->forks);
+	free(all->lock);
+	free(all->philo->pid);
+	free(all->philo);
 }
